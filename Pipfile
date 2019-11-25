@@ -9,6 +9,8 @@ pytest = "*"
 [packages]
 requests = "*"
 opencv-python = "*"
+progress-bar = "*"
+scenedetect = "*"
 
 [requires]
 python_version = "3.7"
