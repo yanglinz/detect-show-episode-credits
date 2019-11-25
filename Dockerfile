@@ -11,5 +11,11 @@ RUN mkdir /app && mkdir /home/app
 WORKDIR /app
 ENV HOME /home/app
 
+# Install application dependencies
+RUN pip install --no-cache-dir --trusted-host pypi.python.org pipenv
+COPY Pipfile /app/
+COPY Pipfile.lock /app/
+RUN pipenv install --dev
+
 # Copy application code
 COPY . /app
