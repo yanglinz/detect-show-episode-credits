@@ -12,8 +12,5 @@ def get_frame_image_fixture(name):
 
 def test_ocr():
     frame = get_frame_image_fixture("credit-1.png")
-    text = detect.get_frame_texts(frame)
-
-    assert "Director" in text
-    assert "Art Director" in text
-    assert "Lead Artist" in text
+    data = detect.get_frame_ocr_data(frame)
+    assert data
