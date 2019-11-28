@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 
 # Install dependencies
 RUN apt-get update && \
-  apt-get install -y supervisor nginx git postgresql-client
+  apt-get install -y tesseract-ocr libtesseract-dev
 
 # Setup the working directory
 RUN mkdir /app && mkdir /home/app
