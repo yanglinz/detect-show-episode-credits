@@ -1,14 +1,30 @@
+from contextlib import contextmanager
+
 import cv2
 
 
-def get_frames(video_file):
+@contextmanager
+def get_capturer(video_file):
     cap = cv2.VideoCapture(video_file)
-    while(True):
-        has_frame, frame = cap.read()
-        print(frame)
-        if not has_frame:
-            break
+    try:
+        yield cap
+    finally:
+        cap.release()
+
+
+def get_frames(video_file):
+    with get_capturer(video_file) as cap:
+        while(True):
+            success, frame = cap.read()
+            if success:
+                yield frame
+            else:
+                break
 
 
 def get_end_credit(video_file):
     frames = get_frames(video_file)
+    # Only capture the last 10%
+    # The video is 24 fps
+    length = sum(1 for i in frames)
+    print(length)
