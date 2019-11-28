@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 
 import cv2
+import pytesseract
 
 
 @contextmanager
@@ -22,9 +23,13 @@ def get_frames(video_file):
                 break
 
 
+def get_frame_texts(frame):
+    return pytesseract.image_to_string(frame)
+
+
 def get_end_credit(video_file):
     frames = get_frames(video_file)
     # Only capture the last 10%
     # The video is 24 fps
-    length = sum(1 for i in frames)
-    print(length)
+    frame = next(frames)
+    print(pytesseract.image_to_string(frame))

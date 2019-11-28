@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "*"
 
 [packages]
 requests = "*"
@@ -12,6 +13,7 @@ progress-bar = "*"
 scenedetect = "*"
 black = "*"
 pytesseract = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
