@@ -14,7 +14,30 @@ class FrameMeta:
 
     @property
     def text(self):
-        return get_frame_ocr_string()
+        return get_frame_ocr_string(self.data)
+
+    @property
+    def credit_likeliness(self):
+        text = self.text
+        
+        # See if there are some keywords
+        likely_text = (
+            "director",
+            "directed by",
+            "produced",
+            "produced by",
+            "producer"
+        )
+        for lt in likely_text:
+            if lt in text:
+                return 1
+
+        # See if there's lots of text
+        hight_text_density = len(text) > 150
+        if hight_text_density:
+            return 1
+
+        return 0
 
 
 def get_frame_ocr_data(image_data):
@@ -70,4 +93,5 @@ def get_relevant_frames(video_file):
 
 def get_end_credit(video_file):
     frames = get_relevant_frames(video_file)
-    print(next(frames))
+    for f in frames:
+        print(f.frame_position_seconds, f.credit_likeliness)
