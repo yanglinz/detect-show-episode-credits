@@ -97,10 +97,18 @@ def get_relevant_frames(video_file):
 
 def get_end_credit(video_file):
     frames = get_relevant_frames(video_file)
+
+    end_credit_timestamp = None
+    score_threshold = 0.8
     for f in frames:
+        score = f.credit_likeliness
         logger.info(
             "analyzing video frame",
             frame_num=f.frame_num,
             frame_position_seconds=f.frame_position_seconds,
-            score=f.credit_likeliness,
+            score=score,
         )
+        if score > score_threshold:
+            end_credit_timestamp = f.frame_position_seconds
+
+    return end_credit_timestamp
