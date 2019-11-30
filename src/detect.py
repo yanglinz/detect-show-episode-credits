@@ -9,6 +9,9 @@ import structlog
 logger = structlog.get_logger()
 
 
+CREDIT_KEYWORDS = ("director", "directed by", "produced", "produced by", "producer")
+
+
 @dataclass
 class FrameMeta:
     data: typing.Any
@@ -24,9 +27,8 @@ class FrameMeta:
         text = self.text
 
         # See if there are some keywords
-        likely_text = ("director", "directed by", "produced", "produced by", "producer")
-        for lt in likely_text:
-            if lt in text:
+        for kw in CREDIT_KEYWORDS:
+            if kw in text.lower():
                 return 1
 
         # See if there's lots of text
