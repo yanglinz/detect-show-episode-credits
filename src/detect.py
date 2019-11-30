@@ -4,6 +4,9 @@ import typing
 
 import cv2
 import pytesseract
+import structlog
+
+logger = structlog.get_logger()
 
 
 @dataclass
@@ -19,15 +22,9 @@ class FrameMeta:
     @property
     def credit_likeliness(self):
         text = self.text
-        
+
         # See if there are some keywords
-        likely_text = (
-            "director",
-            "directed by",
-            "produced",
-            "produced by",
-            "producer"
-        )
+        likely_text = ("director", "directed by", "produced", "produced by", "producer")
         for lt in likely_text:
             if lt in text:
                 return 1
@@ -71,10 +68,17 @@ def get_relevant_frames(video_file):
     duration = None
     frame_count = None
     fps = None
+    logger.info("analyzing video metadata")
     with get_capturer(video_file) as cap:
         fps = cap.get(cv2.CAP_PROP_FPS)
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         duration = frame_count / fps
+        logger.info(
+            "analyzed video metadata",
+            fps=fps,
+            frame_count=frame_count,
+            duration=duration,
+        )
 
     frame_threshold = frame_count * 0.7
     for i, f in enumerate(get_captured_frames(video_file)):
@@ -94,4 +98,9 @@ def get_relevant_frames(video_file):
 def get_end_credit(video_file):
     frames = get_relevant_frames(video_file)
     for f in frames:
-        print(f.frame_position_seconds, f.credit_likeliness)
+        logger.info(
+            "analyzing video frame",
+            frame_num=f.frame_num,
+            frame_position_seconds=f.frame_position_seconds,
+            score=f.credit_likeliness,
+        )
