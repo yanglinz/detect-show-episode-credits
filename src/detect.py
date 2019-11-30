@@ -108,7 +108,7 @@ def get_end_credit(video_file):
             frame_position_seconds=f.frame_position_seconds,
             score=score,
         )
-        if score > score_threshold:
+        if score > score_threshold and not end_credit_timestamp:
             end_credit_timestamp = f.frame_position_seconds
 
     return end_credit_timestamp
