@@ -8,6 +8,16 @@ additional content in the UI. For example, Netflix will displays a piece of UI
 to navigate to the next episode when the end credits starts playing for the
 current video.
 
+## Running
+
+To run the project, `curl`, `docker` and `docker-compose` are required.
+
+```sh
+./scripts/setup.sh
+docker-compose build
+docker-compose run main
+```
+
 ## Dependencies
 
 This demo takes advantage of the following core dependencies.
@@ -20,9 +30,9 @@ This demo takes advantage of the following core dependencies.
 
 The rough approach is to:
 
-1. Capture frames for the video for some interval e.g. 1 frame per second
-2. Place a score on each frame for how likely it is a end credit frame
-3. Analyze the pattern of scores to determine the beginning of the end credit
+1. Capture frames for the video for some interval e.g. 1 frame per second.
+2. Score each frame for how likely it is a end credit frame.
+3. Analyze the pattern of scores to determine the beginning of the end credit.
 
 ## Heuristics
 

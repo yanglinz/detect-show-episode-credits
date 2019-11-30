@@ -19,3 +19,6 @@ RUN pipenv install --dev
 
 # Copy application code
 COPY . /app
+
+# Entry
+CMD pipenv run /app/demo.py
